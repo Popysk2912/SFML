@@ -16,7 +16,7 @@ Program::Program(int width, int height)
     this->loadResources();
     shader = ResourceManager::GetShader("sprite");
     pps = ResourceManager::GetShader("effects");
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
     shader.SetMatrix4("projection", projection, true);
 
     spriteRenderer = std::make_unique<SpriteRenderer>(shader);
@@ -52,6 +52,7 @@ void Program::run()
             {
                 glViewport(0, 0, event.size.width, event.size.height);
             }
+            this->input(event);
         }
 
         time = clock.getElapsedTime().asMilliseconds();
