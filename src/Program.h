@@ -13,6 +13,7 @@
 #include "shader.h"
 #include "post_processor.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
 
 class Program
 {
@@ -37,8 +38,7 @@ protected:
 
     virtual void loadResources();
     virtual void init() = 0;
-    virtual void update() = 0;
+    virtual void update(float dt) = 0;
     virtual void render() = 0;
-    virtual void input(sf::Event e) = 0;
     void Draw(Sprite sprite);
 };

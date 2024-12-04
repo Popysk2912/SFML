@@ -23,7 +23,7 @@ FetchContent_Declare(glm
     GIT_TAG bf71a834948186f4097caa076cd2663c69a10e1e)
 FetchContent_MakeAvailable(glm)
 
-add_executable(${PROJECT_NAME} src/main.cpp  "src/Program.cpp" "src/SpriteRenderer.cpp" "src/Sprite.cpp" "src/shader.cpp" "src/ResourceManager.cpp" "src/post_processor.cpp" "src/texture.cpp" "src/Game.cpp")
+add_executable(${PROJECT_NAME} src/main.cpp  "src/Program.cpp" "src/SpriteRenderer.cpp" "src/Sprite.cpp" "src/shader.cpp" "src/ResourceManager.cpp" "src/post_processor.cpp" "src/texture.cpp" "src/Game.cpp" "src/InputManager.h" "src/InputManager.cpp")
 add_subdirectory(third_party/glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)

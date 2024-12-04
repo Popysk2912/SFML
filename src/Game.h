@@ -1,66 +1,67 @@
 #include "Program.h"
+#include <unordered_map>
+
+class Player : public Sprite
+{
+public:
+    Player(Texture2D texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color) : Sprite(texture, position, size, rotate, color) {}
+    void move(float x, float y)
+    {
+        position.x += x;
+        position.y += y;
+    }
+};
 
 class Game : public Program
 {
 public:
     Game(int width, int height) : Program(width, height) { loadResources(); }
 private:
-    std::vector<Sprite*> sprites;
+    Player* player;
     glm::vec2 sprite_size = glm::vec2(32.0f, 32.0f);
-    int size = 3;
-    glm::vec2 pos = glm::vec2(8, 8);
+    glm::vec2 pos = glm::vec2(0, 0);
     glm::vec2 dir = glm::vec2(0, 0);
+    glm::vec2 velocity = glm::vec2(0, 0);
+    float speed = 250.0f;
 
     void init() override
     {
-        for(int i = 0; i <= size; i++)
-        {
-            Sprite* sprite = new Sprite(ResourceManager::GetTexture("segment"), pos * sprite_size, sprite_size, 0, glm::vec3(1.0f, 1.0f, 1.0f));
-            sprites.push_back(sprite);
-        }
-        effects->Shake = true;
+        player = new Player(ResourceManager::GetTexture("segment"), pos * sprite_size, sprite_size, 0, glm::vec3(1.0f, 1.0f, 1.0f));
+        effects->Shake = false;
     }
-    void update() override
+    void update(float dt) override
     {
-        for (int i = sprites.size()-1; i >= 0; i--)
+        if(InputManager::isKeyDown(sf::Keyboard::Up))
         {
-            if(i != 0)
-            {
-                sprites[i]->setPosition(sprites[i - 1]->getPosition());
-            }
+            velocity.y = 1;
         }
-        sprites[0]->setPosition(sprites[0]->getPosition() + (dir * sprite_size));
-    }
-    void input(sf::Event e) override
-    {
-        if (e.type == sf::Event::KeyPressed)
+        else if(InputManager::isKeyDown(sf::Keyboard::Down))
         {
-            // Обработка нажатия клавиш стрелок
-            if (e.key.code == sf::Keyboard::Up)
-            {
-                dir = glm::vec2(0, -1);
-            }
-            else if (e.key.code == sf::Keyboard::Down)
-            {
-                dir = glm::vec2(0, 1);
-            }
-            else if (e.key.code == sf::Keyboard::Left)
-            {
-                dir = glm::vec2(-1, 0);
-            }
-            else if (e.key.code == sf::Keyboard::Right)
-            {
-                dir = glm::vec2(1, 0);
-            }
+            velocity.y = -1;
         }
-    }
+        else
+        {
+            velocity.y = 0;
+        }
 
+        if (InputManager::isKeyDown(sf::Keyboard::Right))
+        {
+            velocity.x = 1;
+        }
+        else if (InputManager::isKeyDown(sf::Keyboard::Left))
+        {
+            velocity.x = -1;
+        }
+        else
+        {
+            velocity.x = 0;
+        }
+        glm::normalize(velocity);
+        player->move(velocity.x * speed * dt, velocity.y * speed * dt);
+    }
     void render() override
     {
-        for(auto sprite : sprites)
-        {
-            Draw(*sprite);
-        }
+        Draw(*player);
     }
     void loadResources() override
     {
