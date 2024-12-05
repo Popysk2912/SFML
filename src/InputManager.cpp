@@ -1,6 +1,7 @@
 #include "InputManager.h"
 
 std::unordered_map<int, bool> InputManager::keys;
+std::unordered_map<std::string, Axis> InputManager::axes;
 
 void InputManager::updateKeys(sf::Event e)
 {
@@ -19,4 +20,24 @@ void InputManager::updateKeys(sf::Event e)
 bool InputManager::isKeyDown(int keyCode)
 {
     return (keys.count(keyCode) == 1);
+}
+
+void InputManager::createAxis(int minus, int add, std::string name)
+{
+    Axis axis(minus, add);
+    axes[name] = axis;
+}
+
+float InputManager::getAxis(std::string name)
+{
+    Axis axis = axes[name];
+    if(isKeyDown(axis.negativeKey))
+    {
+        axis.value = -1;
+    }
+    else if (isKeyDown(axis.positiveKey))
+    {
+        axis.value = 1;
+    }
+    return axis.value;
 }
