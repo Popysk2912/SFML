@@ -6,6 +6,7 @@ Program::Program(int width, int height)
     this->height = height;
     window.create(sf::VideoMode(width, height), "OpenGL", sf::Style::Default, sf::ContextSettings(16));
     window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
 
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(sf::Context::getFunction))) {
         std::cerr << "Failed to initialize OpenGL loader!" << std::endl;
@@ -44,6 +45,7 @@ void Program::run()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            InputManager::updateKeys(event);
             if (event.type == sf::Event::Closed)
             {
                 running = false;
@@ -52,11 +54,10 @@ void Program::run()
             {
                 glViewport(0, 0, event.size.width, event.size.height);
             }
-            this->input(event);
         }
-
+        float dt = clock.restart().asSeconds();
         time = clock.getElapsedTime().asMilliseconds();
-        this->update();
+        this->update(dt);
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
         effects->BeginRender();
