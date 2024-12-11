@@ -1,4 +1,4 @@
-#include "Program.h"
+#include "headers/Engine/Program.h"
 
 Program::Program(int width, int height)
 {
@@ -31,6 +31,11 @@ void Program::loadResources()
     ResourceManager::LoadTexture("texture.png", true, "sprite");
 }
 
+void Program::setFrameRate(int frameRate)
+{
+    this->window.setFramerateLimit(frameRate);
+}
+
 void Program::Draw(Sprite sprite)
 {
     sprite.draw(*spriteRenderer);
@@ -44,6 +49,7 @@ void Program::run()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            InputManager::updateKeys(event);
             if (event.type == sf::Event::Closed)
             {
                 running = false;
@@ -52,11 +58,10 @@ void Program::run()
             {
                 glViewport(0, 0, event.size.width, event.size.height);
             }
-            this->input(event);
         }
-
+        float dt = clock.restart().asSeconds();
         time = clock.getElapsedTime().asMilliseconds();
-        this->update();
+        this->update(dt);
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
         effects->BeginRender();

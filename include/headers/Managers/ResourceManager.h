@@ -7,8 +7,8 @@
 #include <glad/glad.h>
 #include <SFML/Graphics/Texture.hpp>
 
-#include "shader.h"
-#include "texture.h"
+#include "headers/Engine/shader.h"
+#include "headers/Engine/texture.h"
 #include <filesystem>
 
 class ResourceManager
@@ -19,15 +19,23 @@ public:
 
     static Texture2D LoadTexture(const char* file, bool alpha, const std::string& name);
     static Texture2D GetTexture(const std::string& name);
+
+    static std::vector<Texture2D> LoadTileTexture(const char* file, bool alpha);
+    static std::vector<Texture2D>& GetTileTextures();
     
+    static std::vector<std::vector<int>> LoadMatix(const char* file, int sizeX, int sizeY);
+
     static void Clear();
     static void Init();
+
+    static std::string GetResourcePath();
 
 private:
     ResourceManager() {}
 
     static std::map<std::string, Shader> Shaders;
     static std::map<std::string, Texture2D> Textures;
+    static std::vector<Texture2D> tileTextures;
     static std::string resource_path;
     
     static Shader loadShaderFromFile(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile = nullptr);

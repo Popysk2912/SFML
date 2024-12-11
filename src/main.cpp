@@ -1,10 +1,7 @@
-#include "Game.h"
-
-
+#include "headers/Game.h"
 
 int main()
 {
-    Game game(800, 800);
-    game.run();
-    return 0;
+	Game game = Game(800, 600);
+	game.run();
 }

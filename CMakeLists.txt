@@ -23,12 +23,25 @@ FetchContent_Declare(glm
     GIT_TAG bf71a834948186f4097caa076cd2663c69a10e1e)
 FetchContent_MakeAvailable(glm)
 
-add_executable(${PROJECT_NAME} src/main.cpp  "src/Program.cpp" "src/SpriteRenderer.cpp" "src/Sprite.cpp" "src/shader.cpp" "src/ResourceManager.cpp" "src/post_processor.cpp" "src/texture.cpp" "src/Game.cpp")
+add_executable(${PROJECT_NAME} 
+    src/main.cpp
+    src/Game.cpp
+    src/Engine/post_processor.cpp
+    src/Engine/Program.cpp
+    src/Engine/shader.cpp
+    src/Engine/Sprite.cpp
+    src/Engine/SpriteRenderer.cpp
+    src/Engine/texture.cpp
+    src/GameObjects/GameObject.cpp
+    src/Managers/InputManager.cpp
+    src/Managers/ResourceManager.cpp
+)
 add_subdirectory(third_party/glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)    
 
 if(WIN32)
