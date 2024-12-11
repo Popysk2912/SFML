@@ -1,19 +1,10 @@
 #pragma once
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <string>
-#include <filesystem>
-#include <vector>
-#include <memory>
-
-#include <glad/glad.h>
-#include "SpriteRenderer.h"
-#include "Sprite.h"
-#include "shader.h"
-#include "post_processor.h"
-#include "ResourceManager.h"
-#include "InputManager.h"
+#include "headers/Engine/SpriteRenderer.h"
+#include "headers/Engine/Sprite.h"
+#include "headers/Engine/shader.h"
+#include "headers/Engine/post_processor.h"
+#include "headers/Managers/ResourceManager.h"
+#include "headers/Managers/InputManager.h"
 
 class Program
 {
@@ -33,12 +24,13 @@ protected:
     sf::Clock clock;
     float time = 0;
 
-    std::unique_ptr <SpriteRenderer> spriteRenderer;
+    std::unique_ptr<SpriteRenderer> spriteRenderer;
     std::unique_ptr<PostProcessor> effects;
 
     virtual void loadResources();
     virtual void init() = 0;
     virtual void update(float dt) = 0;
     virtual void render() = 0;
+    void setFrameRate(int frameRate);
     void Draw(Sprite sprite);
 };

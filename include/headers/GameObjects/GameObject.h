@@ -1,4 +1,6 @@
-#include "Program.h"
+#pragma once
+#include "headers/Engine/Program.h"
+#include <fstream>
 
 class GameObject : public Sprite
 {
@@ -16,5 +18,4 @@ class Player : public GameObject
 {
 public:
     Player(Texture2D texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color, bool collidable) : GameObject(texture, position, size, rotate, color, collidable) {}
-    
 };

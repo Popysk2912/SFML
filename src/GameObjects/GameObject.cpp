@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "headers/GameObjects/GameObject.h"
 
 void GameObject::move(float x, float y)
 {

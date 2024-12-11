@@ -1,4 +1,4 @@
-#include "SpriteRenderer.h"
+#include "headers/Engine/SpriteRenderer.h"
 
 
 SpriteRenderer::SpriteRenderer(Shader& shader)
@@ -46,13 +46,13 @@ void SpriteRenderer::initRenderData()
     unsigned int VBO;
     float vertices[] = {
         // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 0.0f, 1.0f,
 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        0.0f, 1.0f, 0.0f, 0.0f,
+        1.0f, 1.0f, 1.0f, 0.0f,
+        1.0f, 0.0f, 1.0f, 1.0f
     };
 
     glGenVertexArrays(1, &this->quadVAO);

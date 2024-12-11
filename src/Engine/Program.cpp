@@ -1,4 +1,4 @@
-#include "Program.h"
+#include "headers/Engine/Program.h"
 
 Program::Program(int width, int height)
 {
@@ -6,7 +6,6 @@ Program::Program(int width, int height)
     this->height = height;
     window.create(sf::VideoMode(width, height), "OpenGL", sf::Style::Default, sf::ContextSettings(16));
     window.setVerticalSyncEnabled(true);
-    window.setFramerateLimit(60);
 
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(sf::Context::getFunction))) {
         std::cerr << "Failed to initialize OpenGL loader!" << std::endl;
@@ -30,6 +29,11 @@ void Program::loadResources()
     ResourceManager::LoadShader("default.vert", "default.frag", nullptr, "sprite");
     ResourceManager::LoadShader("effects.vert", "effects.frag", nullptr, "effects");
     ResourceManager::LoadTexture("texture.png", true, "sprite");
+}
+
+void Program::setFrameRate(int frameRate)
+{
+    this->window.setFramerateLimit(frameRate);
 }
 
 void Program::Draw(Sprite sprite)

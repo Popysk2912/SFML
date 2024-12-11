@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "headers/Managers/InputManager.h"
 
 std::unordered_map<int, bool> InputManager::keys;
 std::unordered_map<std::string, Axis> InputManager::axes;

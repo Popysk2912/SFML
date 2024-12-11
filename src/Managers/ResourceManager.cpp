@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+#include "headers/Managers/ResourceManager.h"
 
 #include <iostream>
 #include <fstream>
@@ -7,6 +7,7 @@
 
 std::map<std::string, Shader> ResourceManager::Shaders;
 std::map<std::string, Texture2D> ResourceManager::Textures;
+std::vector<Texture2D> ResourceManager::tileTextures;
 std::string ResourceManager::resource_path;
 
 Shader ResourceManager::LoadShader(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile, const std::string& name)
@@ -39,6 +40,46 @@ Texture2D ResourceManager::GetTexture(const std::string& name)
 
     std::cerr << "ERROR::Texture: Texture not found with name " << name << std::endl;
     return Texture2D();
+}
+
+std::vector<Texture2D> ResourceManager::LoadTileTexture(const char* file, bool alpha)
+{
+    tileTextures.push_back(loadTextureFromFile(file, alpha));
+    std::cout << tileTextures.size() << std::endl;
+    return tileTextures;
+}
+
+std::vector<Texture2D>& ResourceManager::GetTileTextures()
+{
+    return tileTextures;
+}
+
+std::vector<std::vector<int>> ResourceManager::LoadMatix(const char* file, int sizeX, int sizeY)
+{
+    std::vector<std::vector<int>> matrix;
+    matrix.resize(sizeY);
+    for (auto& t : matrix)
+    {
+        t.resize(sizeX);
+    }
+    
+    std::string file_path = resource_path + "/" + file;
+    
+    std::ifstream in_file;
+    in_file.open(file_path);
+    if (!in_file)
+    {
+        std::cout << "ERROR::TILE_MAP: Can't open file: " << file_path << ".\n";
+    }
+    for (size_t i = 0; i < sizeX; ++i)
+    {
+        for (size_t j = 0; j < sizeY; ++j)
+        {
+            in_file >> matrix[i][j];
+        }
+    }
+    in_file.close();
+    return matrix;
 }
 
 Shader ResourceManager::loadShaderFromFile(const char* vShaderFile, const char* fShaderFile, const char* gShaderFile)
@@ -134,6 +175,11 @@ void ResourceManager::Init()
     std::cout << "Release Build \n";
 #endif
     ResourceManager::resource_path = resourcePath;
+}
+
+std::string ResourceManager::GetResourcePath()
+{
+    return resource_path;
 }
 
 unsigned char* ResourceManager::textureToCharArray(const sf::Image& image, int& width, int& height)
